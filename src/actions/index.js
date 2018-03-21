@@ -62,9 +62,9 @@ export const login = (username, password, history) => {
 };
 
 export const logout = () => {
-  return dispatch => {
+  return dispatch => ({
     type: USER_UNAUTHENTICATED
-  };
+  });
 };
 
 export const getUsers = () => {
