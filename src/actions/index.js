@@ -11,21 +11,21 @@ export const AUTHENTICATION_ERROR = 'AUTHENTICATION_ERROR';
 export const GET_USERS = 'GET_USERS';
 export const CHECK_IF_AUTHENTICATED = 'CHECK_IF_AUTHENTICATED';
 
-export const authError = error => {
+export const authError = (error) => {
   return {
     type: AUTHENTICATION_ERROR,
-    payload: error
+    payload: error,
   };
 };
 
 export const isAuthenticated = () => {
-  return dispatch => ({
-    type: CHECK_IF_AUTHENTICATED
+  return (dispatch) => ({
+    type: CHECK_IF_AUTHENTICATED,
   });
-}
+};
 
 export const register = (username, password, confirmPassword, history) => {
-  return dispatch => {
+  return (dispatch) => {
     if (password !== confirmPassword) {
       dispatch(authError('Passwords do not match'));
       return;
@@ -34,7 +34,7 @@ export const register = (username, password, confirmPassword, history) => {
       .post(`${ROOT_URL}/api/users`, { username, password })
       .then(() => {
         dispatch({
-          type: USER_REGISTERED
+          type: USER_REGISTERED,
         });
         history.push('/signin');
       })
@@ -45,15 +45,15 @@ export const register = (username, password, confirmPassword, history) => {
 };
 
 export const login = (username, password, history) => {
-  return dispatch => {
+  return (dispatch) => {
     axios
       .post(`${ROOT_URL}/api/login`, { username, password })
       .then(({ data }) => {
         dispatch({
-          type: USER_AUTHENTICATED
+          type: USER_AUTHENTICATED,
         });
         localStorage.setItem('token', data.token);
-        // history.push('/users');
+        history.push('/users');
       })
       .catch(() => {
         dispatch(authError('Incorrect username/password combo'));
@@ -62,26 +62,28 @@ export const login = (username, password, history) => {
 };
 
 export const logout = () => {
-  return dispatch => ({
-    type: USER_UNAUTHENTICATED
+  return (dispatch) => ({
+    type: USER_UNAUTHENTICATED,
   });
 };
 
 export const getUsers = () => {
-  return dispatch => {
+  return (dispatch) => {
     console.log(localStorage.getItem('token'));
     axios
-      .get(`${ROOT_URL}/api/users`, {headers: {
-        authorization: localStorage.getItem('token'),
-      }})
-      .then(response => {
+      .get(`${ROOT_URL}/api/users`, {
+        headers: {
+          authorization: localStorage.getItem('token'),
+        },
+      })
+      .then((response) => {
         dispatch({
           type: GET_USERS,
-          payload: response.data
-        })
+          payload: response.data,
+        });
         dispatch({
           type: USER_AUTHENTICATED,
-        })
+        });
       })
       .catch(() => {
         dispatch(authError('Failed to fetch users'));
