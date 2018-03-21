@@ -62,14 +62,11 @@ export const login = (username, password, history) => {
 };
 
 export const logout = () => {
-  return (dispatch) => ({
-    type: USER_UNAUTHENTICATED,
-  });
+  return { type: USER_UNAUTHENTICATED }
 };
 
 export const getUsers = () => {
   return (dispatch) => {
-    console.log(localStorage.getItem('token'));
     axios
       .get(`${ROOT_URL}/api/users`, {
         headers: {

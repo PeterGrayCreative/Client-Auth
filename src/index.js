@@ -9,6 +9,7 @@ import RequireAuth from './components/HOC/RequireAuth';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import ReduxThunk from 'redux-thunk';
+import logger from 'redux-logger';
 import {
   BrowserRouter as Router,
   Route,
@@ -16,7 +17,7 @@ import {
 import reducers from './reducers';
 import './index.css';
 
-const createStoreWithMiddleware = applyMiddleware(ReduxThunk)(createStore);
+const createStoreWithMiddleware = applyMiddleware(ReduxThunk, logger)(createStore);
 
 ReactDOM.render(
   <Provider store={createStoreWithMiddleware(reducers)}>
