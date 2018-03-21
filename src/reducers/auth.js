@@ -10,6 +10,7 @@ export default (auth = {}, action) => {
     case USER_AUTHENTICATED:
       return { ...auth, authenticated: true };
     case USER_UNAUTHENTICATED:
+      localStorage.removeItem('token');
       return { ...auth, authenticated: false };
     case AUTHENTICATION_ERROR:
       return { ...auth, error: action.payload };
